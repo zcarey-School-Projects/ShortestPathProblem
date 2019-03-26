@@ -39,14 +39,13 @@ namespace ShortestPathProblem {
 		}
 
 		private void EditCityDialog_FormClosing(object sender, FormClosingEventArgs e) {
-			if(e.CloseReason == CloseReason.UserClosing) {
+			if((e.CloseReason == CloseReason.UserClosing) && (DialogResult != DialogResult.OK)) {
 				//Treat as cancel
 				DialogResult = DialogResult.Cancel;
 			}
 		}
 
 		private void Btn_Cancel_Click(object sender, EventArgs e) {
-			DialogResult = DialogResult.Cancel;
 			Close();
 		}
 	}
