@@ -18,21 +18,16 @@ namespace ShortestPathProblem {
 
 		private void EditCityDialog_Load(object sender, EventArgs e) {
 			TextBox_CityName.Text = selectedCity.Name;
-		}
-
-		public DialogResult Edit(City editCity) {
-			DialogResult = DialogResult.No;
-			if(editCity != null) {
-				selectedCity = editCity;
-				ShowDialog();
-			}
-			return DialogResult;
+			Numeric_Latitude.Value = selectedCity.Latitude;
+			Numeric_Longitude.Value = selectedCity.Longitude;
 		}
 
 		private void Btn_Save_Click(object sender, EventArgs e) {
 			string newName = TextBox_CityName.Text;
 			if ((newName != null) && (newName.Length > 0)) {
 				selectedCity.Name = newName;
+				selectedCity.Latitude = Numeric_Latitude.Value;
+				selectedCity.Longitude = Numeric_Longitude.Value;
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -47,6 +42,15 @@ namespace ShortestPathProblem {
 
 		private void Btn_Cancel_Click(object sender, EventArgs e) {
 			Close();
+		}
+
+		public DialogResult Edit(City editCity) {
+			DialogResult = DialogResult.No;
+			if (editCity != null) {
+				selectedCity = editCity;
+				ShowDialog();
+			}
+			return DialogResult;
 		}
 	}
 }
