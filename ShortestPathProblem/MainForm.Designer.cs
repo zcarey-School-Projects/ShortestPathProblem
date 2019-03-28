@@ -29,6 +29,8 @@
 			this.Btn_RemoveCity = new System.Windows.Forms.Button();
 			this.CityList2 = new System.Windows.Forms.ListBox();
 			this.CityList3 = new System.Windows.Forms.ListBox();
+			this.Label_Distance_KM = new System.Windows.Forms.Label();
+			this.Label_Distance_MI = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// CityList
@@ -78,7 +80,7 @@
 			this.CityList2.Name = "CityList2";
 			this.CityList2.Size = new System.Drawing.Size(117, 276);
 			this.CityList2.TabIndex = 4;
-			this.CityList2.SelectedIndexChanged += new System.EventHandler(this.CityList2_SelectedIndexChanged);
+			this.CityList2.SelectedIndexChanged += new System.EventHandler(this.CalculateDistance);
 			// 
 			// CityList3
 			// 
@@ -88,13 +90,33 @@
 			this.CityList3.Name = "CityList3";
 			this.CityList3.Size = new System.Drawing.Size(117, 276);
 			this.CityList3.TabIndex = 5;
-			this.CityList3.SelectedIndexChanged += new System.EventHandler(this.CityList3_SelectedIndexChanged);
+			this.CityList3.SelectedIndexChanged += new System.EventHandler(this.CalculateDistance);
+			// 
+			// Label_Distance_KM
+			// 
+			this.Label_Distance_KM.AutoSize = true;
+			this.Label_Distance_KM.Location = new System.Drawing.Point(555, 18);
+			this.Label_Distance_KM.Name = "Label_Distance_KM";
+			this.Label_Distance_KM.Size = new System.Drawing.Size(76, 17);
+			this.Label_Distance_KM.TabIndex = 6;
+			this.Label_Distance_KM.Text = "0000.0000";
+			// 
+			// Label_Distance_MI
+			// 
+			this.Label_Distance_MI.AutoSize = true;
+			this.Label_Distance_MI.Location = new System.Drawing.Point(555, 41);
+			this.Label_Distance_MI.Name = "Label_Distance_MI";
+			this.Label_Distance_MI.Size = new System.Drawing.Size(76, 17);
+			this.Label_Distance_MI.TabIndex = 7;
+			this.Label_Distance_MI.Text = "0000.0000";
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(684, 313);
+			this.Controls.Add(this.Label_Distance_MI);
+			this.Controls.Add(this.Label_Distance_KM);
 			this.Controls.Add(this.CityList3);
 			this.Controls.Add(this.CityList2);
 			this.Controls.Add(this.Btn_RemoveCity);
@@ -106,6 +128,7 @@
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
@@ -117,6 +140,8 @@
 		private System.Windows.Forms.Button Btn_RemoveCity;
 		private System.Windows.Forms.ListBox CityList2;
 		private System.Windows.Forms.ListBox CityList3;
+		private System.Windows.Forms.Label Label_Distance_KM;
+		private System.Windows.Forms.Label Label_Distance_MI;
 	}
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,15 +38,9 @@ namespace ShortestPathProblem {
 		/// <param name="city">The city to calculate the distance to.</param>
 		/// <returns>A double value of the distance between the two cities in KM.</returns>
 		public double DistanceTo(City city) {
-			if (city == null) return 0d;
-			const double RADIUS_EARTH = 6371d;
-			double deltaLat = ToRadians((double)(city.Latitude - this.Latitude));
-			double deltaLon = ToRadians((double)(city.Longitude - this.Longitude));
-
-			double a = Math.Pow(Math.Sin(deltaLat / 2), 2) + Math.Cos((double)this.Latitude) * Math.Cos((double)city.Latitude) * Math.Pow(Math.Sin(deltaLon), 2);
-			double c = Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-			return RADIUS_EARTH - c;
+			GeoCoordinate coord1 = new GeoCoordinate((double)city.Latitude, (double)city.Longitude);
+			GeoCoordinate coord2 = new GeoCoordinate((double)Latitude, (double)Longitude);
+			return coord1.GetDistanceTo(coord2) / 1000;
 		}
 
 		private static double ToRadians(double degs) {

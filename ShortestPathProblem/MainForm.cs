@@ -17,6 +17,7 @@ namespace ShortestPathProblem {
 
 		public MainForm() {
 			InitializeComponent();
+			CalculateDistance(null, null);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e) {
@@ -30,9 +31,9 @@ namespace ShortestPathProblem {
 
 		private void refreshList() {
 			cities.Sort((x, y) => x.Name.CompareTo(y.Name));
-			CityList.Items.Clear();
+			clearLists();
 			foreach (City city in cities) {
-				CityList.Items.Add(city.Name);
+				addItemToLists(city);
 			}
 		}
 
@@ -45,21 +46,61 @@ namespace ShortestPathProblem {
 		}
 
 		private void Btn_EditCity_Click(object sender, EventArgs e) {
-			int index = CityList.SelectedIndex;
-			if ((index < 0) || (index >= cities.Count)) return;
-			City selection = cities[index];
-			if (cityEditor.Edit(selection) == DialogResult.OK) {
-				refreshList();
-			} else {
-				MessageBox.Show("Error loading city.");
+			City selection = getSelectedCity(CityList);
+			if(selection != null) {
+				DialogResult result = cityEditor.Edit(selection);
+				if (result == DialogResult.OK) refreshList();
+				else if (result == DialogResult.No) MessageBox.Show("Error loading city.");
 			}
 		}
 
 		private void Btn_RemoveCity_Click(object sender, EventArgs e) {
-			int index = CityList.SelectedIndex;
-			if ((index < 0) || (index >= cities.Count)) return;
-			cities.RemoveAt(index);
+			int index;
+			if(TryGetSelection(CityList, out index)) {
+				cities.RemoveAt(index);
+				removeIndexFromLists(index);
+			}
+		}
+
+		private void CalculateDistance(object sender, EventArgs e) {
+			City city1 = getSelectedCity(CityList2);
+			City city2 = getSelectedCity(CityList3);
+			double d = 0;
+			if(city1 != null && city2 != null) d = city1.DistanceTo(city2);
+			Label_Distance_KM.Text = d.ToString("N4").PadLeft(11) + " KM";
+			Label_Distance_MI.Text = (d / 1.609).ToString("N4").PadLeft(11) + " MI";
+		}
+
+		private bool TryGetSelection(ListBox list, out int index) {
+			index = list.SelectedIndex;
+			return  ((index >= 0) && (index < cities.Count));
+		}
+
+		private City getSelectedCity(ListBox list) {
+			int index;
+			if(TryGetSelection(list, out index)) {
+				return cities[index];
+			} else {
+				return null;
+			}
+		}
+
+		private void clearLists() {
+			CityList.Items.Clear();
+			CityList2.Items.Clear();
+			CityList3.Items.Clear();
+		}
+
+		private void addItemToLists(City city) {
+			CityList.Items.Add(city.Name);
+			CityList2.Items.Add(city.Name);
+			CityList3.Items.Add(city.Name);
+		}
+
+		private void removeIndexFromLists(int index) {
 			CityList.Items.RemoveAt(index);
+			CityList2.Items.RemoveAt(index);
+			CityList3.Items.RemoveAt(index);
 		}
 
 		private List<City> LoadCitiesFromFile(string filename) {
@@ -113,16 +154,6 @@ namespace ShortestPathProblem {
 			}
 			File.WriteAllLines(filename, lines.ToArray());
 		}
-
-		private void CityList2_SelectedIndexChanged(object sender, EventArgs e) {
-
-		}
-
-		private void CityList3_SelectedIndexChanged(object sender, EventArgs e) {
-
-		}
-
-		private City getSelectedCity()
 
 	}
 }
