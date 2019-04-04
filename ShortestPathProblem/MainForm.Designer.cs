@@ -124,7 +124,7 @@
 			this.Controls.Add(this.Btn_AddCity);
 			this.Controls.Add(this.CityList);
 			this.Name = "MainForm";
-			this.Text = "Form1";
+			this.Text = "Shortest Distance";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);

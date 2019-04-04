@@ -145,7 +145,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "EditCityDialog";
-			this.Text = "EditCityDialog";
+			this.Text = "Edit City";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EditCityDialog_FormClosing);
 			this.Load += new System.EventHandler(this.EditCityDialog_Load);
 			((System.ComponentModel.ISupportInitialize)(this.Numeric_Latitude)).EndInit();
