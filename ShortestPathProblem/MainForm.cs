@@ -17,7 +17,6 @@ namespace ShortestPathProblem {
 
 		public MainForm() {
 			InitializeComponent();
-			CalculateDistance(null, null);
 		}
 
 		private void MainForm_Load(object sender, EventArgs e) {
@@ -92,15 +91,6 @@ namespace ShortestPathProblem {
 			}
 		}
 
-		private void CalculateDistance(object sender, EventArgs e) {
-			/*City city1 = getSelectedCity(CityList2);
-			City city2 = getSelectedCity(CityList3);
-			double d = 0;
-			if(city1 != null && city2 != null) d = city1.DistanceTo(city2);
-			Label_Distance_KM.Text = d.ToString("N4").PadLeft(11) + " KM";
-			Label_Distance_MI.Text = (d / 1.609).ToString("N4").PadLeft(11) + " MI";*/
-		}
-
 		private bool TryGetSelection(ListBox list, out int index) {
 			index = list.SelectedIndex;
 			return  ((index >= 0) && (index < cities.Count));
@@ -117,20 +107,14 @@ namespace ShortestPathProblem {
 
 		private void clearLists() {
 			CityList.Items.Clear();
-			//CityList2.Items.Clear();
-			//CityList3.Items.Clear();
 		}
 
 		private void addItemToLists(City city) {
 			CityList.Items.Add(city.Name);
-			//CityList2.Items.Add(city.Name);
-			//CityList3.Items.Add(city.Name);
 		}
 
 		private void removeIndexFromLists(int index) {
 			CityList.Items.RemoveAt(index);
-			//CityList2.Items.RemoveAt(index);
-			//CityList3.Items.RemoveAt(index);
 		}
 
 		private void addCity(City newCity) {
@@ -234,44 +218,7 @@ namespace ShortestPathProblem {
 			}
 			DistanceList.ExpandAll();
 		}
-		/*
-		private void CityList_SelectedIndexChanged(object sender, EventArgs e) {
-			DistanceList.Nodes.Clear();
-			if (CityList.SelectedIndex < 0) return;
-
-			City lastCity = cities[CityList.SelectedIndex]; //The selected city
-			TreeNode lastCityNode = new TreeNode(lastCity.Name); 
-			DistanceList.Nodes.Add(lastCityNode);
-
-			List<City> remainingCities = new List<City>();
-			remainingCities.AddRange(cities);
-			remainingCities.Remove(lastCity); //Removes the selected city from the list
-
-			while(remainingCities.Count > 0) {
-				Distance closestDist = null;
-				City closestCity = null;
-				foreach (City city in remainingCities) {
-					Distance dist = lastCity.DistanceTo(city);
-					if(closestDist == null || dist < closestDist) {
-						closestDist = dist;
-						closestCity = city;
-					}
-				}
-				if(closestCity != null) {
-					if (Btn_Units_Miles.Checked) closestDist.Unit = DistanceUnit.Miles;
-					else closestDist.Unit = DistanceUnit.Kilometers;
-
-					remainingCities.Remove(closestCity);
-					lastCityNode.Nodes.Add(closestDist.Value.ToString("N3") + " " + closestDist.Unit.Abbreviation);
-					lastCityNode = new TreeNode(closestCity.Name);
-					lastCity = closestCity;
-					DistanceList.Nodes.Add(lastCityNode);
-				}
-			}
-			DistanceList.ExpandAll();
-			//DistanceList.AutoScrollOffset = new Point(0, -1000);
-		}
-		*/
+		
 		private void Btn_Units_Miles_CheckedChanged(object sender, EventArgs e) {
 			CityList_SelectedIndexChanged(null, null);
 		}
