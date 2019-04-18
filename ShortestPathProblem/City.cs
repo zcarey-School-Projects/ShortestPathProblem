@@ -80,10 +80,26 @@ namespace ShortestPathProblem {
 			}
 		}
 
+		public Tuple<City, Distance> FindClosestCity(List<City> remainingCities) {
+			foreach(Tuple<City, Distance> pair in sortedCityDistances) {
+				if (remainingCities.Contains(pair.Item1)) {
+					return pair;
+				}
+			}
+			return null;
+		}
+
+		public Distance GetDistance(City city) {
+			foreach(Tuple<City, Distance> tuple in sortedCityDistances) {
+				if (tuple.Item1 == city) return tuple.Item2;
+			}
+			return null;
+		}
+
 		/// <summary>Returns the distance between two cities in KM</summary>
 		/// <param name="city">The city to calculate the distance to.</param>
 		/// <returns>A double value of the distance between the two cities in KM.</returns>
-		public Distance DistanceTo(City city) {
+		private Distance DistanceTo(City city) {
 			GeoCoordinate coord1 = new GeoCoordinate((double)city.Latitude, (double)city.Longitude);
 			GeoCoordinate coord2 = new GeoCoordinate((double)Latitude, (double)Longitude);
 

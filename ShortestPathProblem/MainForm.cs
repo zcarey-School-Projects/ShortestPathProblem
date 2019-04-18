@@ -21,7 +21,7 @@ namespace ShortestPathProblem {
 		}
 
 		private void MainForm_Load(object sender, EventArgs e) {
-			cities = LoadCitiesFromFile(SAVE_FILE_NAME);
+			LoadCitiesFromFile(SAVE_FILE_NAME);
 			refreshList();
 			TreeNode sub1 = new TreeNode("Sub1");
 			TreeNode node1 = new TreeNode("Node1", new TreeNode[] { sub1 });
@@ -60,7 +60,8 @@ namespace ShortestPathProblem {
 			City newCity = new City();
 			if(cityEditor.Edit(newCity) == DialogResult.OK) {
 				if (checkForExistingName(newCity.Name)) return;
-				cities.Add(newCity);
+				//cities.Add(newCity);
+				addCity(newCity);
 				refreshList();
 			}
 		}
@@ -73,6 +74,8 @@ namespace ShortestPathProblem {
 				while((result = cityEditor.Edit(temp)) == DialogResult.OK){
 					if(!checkForExistingName(temp.Name, selection)) {
 						selection.CopyValues(temp);
+						removeCity(selection); //These two line re-sorts the city based on its new distance.
+						addCity(selection);
 						refreshList();
 						return;
 					}
@@ -83,7 +86,8 @@ namespace ShortestPathProblem {
 		private void Btn_RemoveCity_Click(object sender, EventArgs e) {
 			int index;
 			if(TryGetSelection(CityList, out index)) {
-				cities.RemoveAt(index);
+				//cities.RemoveAt(index);
+				removeCity(index);
 				removeIndexFromLists(index);
 			}
 		}
@@ -129,9 +133,32 @@ namespace ShortestPathProblem {
 			//CityList3.Items.RemoveAt(index);
 		}
 
-		private List<City> LoadCitiesFromFile(string filename) {
-			List<City> cities = new List<City>();
-			if (!File.Exists(filename)) return cities;
+		private void addCity(City newCity) {
+			foreach(City city in cities) {
+				city.addCity(newCity);
+				newCity.addCity(city);
+			}
+			cities.Add(newCity);
+		}
+
+		private void removeCity(int index) {
+			City oldCity = cities[index];
+			cities.RemoveAt(index);
+			foreach(City city in cities) {
+				city.removeCity(oldCity);
+			}
+		}
+
+		private void removeCity(City oldCity) {
+			cities.Remove(oldCity);
+			foreach(City city in cities) {
+				city.removeCity(oldCity);
+			}
+		}
+
+		private void LoadCitiesFromFile(string filename) {
+			cities = new List<City>();
+			if (!File.Exists(filename)) return;
 			string[] lines = File.ReadAllLines(filename);
 			foreach(string str in lines) {
 				City city = new City();
@@ -164,10 +191,9 @@ namespace ShortestPathProblem {
 				}
 				city.Longitude = temp;
 
-				cities.Add(city);
+				//cities.Add(city);
+				addCity(city);
 			}
-			
-			return cities;
 		}
 
 		private void SaveCitiesToFile(string filename, List<City> cities) {
@@ -181,6 +207,34 @@ namespace ShortestPathProblem {
 			File.WriteAllLines(filename, lines.ToArray());
 		}
 
+		private void CityList_SelectedIndexChanged(object sender, EventArgs e) {
+			DistanceList.Nodes.Clear();
+			if (CityList.SelectedIndex < 0) return;
+
+			City lastCity = cities[CityList.SelectedIndex]; //The selected city
+			TreeNode lastCityNode = new TreeNode(lastCity.Name);
+			DistanceList.Nodes.Add(lastCityNode);
+
+			List<City> remainingCities = new List<City>();
+			remainingCities.AddRange(cities);
+			remainingCities.Remove(lastCity); //Removes the selected city from the list
+
+			while (remainingCities.Count > 0) {
+				Tuple<City, Distance> nextClosest = lastCity.FindClosestCity(remainingCities);
+				if (nextClosest != null) {
+					if (Btn_Units_Miles.Checked) nextClosest.Item2.Unit = DistanceUnit.Miles;
+					else nextClosest.Item2.Unit = DistanceUnit.Kilometers;
+
+					remainingCities.Remove(nextClosest.Item1);
+					lastCityNode.Nodes.Add(nextClosest.Item2.Value.ToString("N3") + " " + nextClosest.Item2.Unit.Abbreviation);
+					lastCityNode = new TreeNode(nextClosest.Item1.Name);
+					lastCity = nextClosest.Item1;
+					DistanceList.Nodes.Add(lastCityNode);
+				}
+			}
+			DistanceList.ExpandAll();
+		}
+		/*
 		private void CityList_SelectedIndexChanged(object sender, EventArgs e) {
 			DistanceList.Nodes.Clear();
 			if (CityList.SelectedIndex < 0) return;
@@ -217,7 +271,7 @@ namespace ShortestPathProblem {
 			DistanceList.ExpandAll();
 			//DistanceList.AutoScrollOffset = new Point(0, -1000);
 		}
-
+		*/
 		private void Btn_Units_Miles_CheckedChanged(object sender, EventArgs e) {
 			CityList_SelectedIndexChanged(null, null);
 		}
