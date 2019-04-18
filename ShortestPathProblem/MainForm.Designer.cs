@@ -23,24 +23,41 @@
 		/// the contents of this method with the code editor.
 		/// </summary>
 		private void InitializeComponent() {
+			System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Sub1");
+			System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Sub2");
+			System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Sub3");
+			System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Node0", new System.Windows.Forms.TreeNode[] {
+            treeNode1,
+            treeNode2,
+            treeNode3});
+			System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Sub1");
+			System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Sub2");
+			System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Node1", new System.Windows.Forms.TreeNode[] {
+            treeNode5,
+            treeNode6});
+			System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Sub1");
+			System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("Node2", new System.Windows.Forms.TreeNode[] {
+            treeNode8});
 			this.CityList = new System.Windows.Forms.ListBox();
 			this.Btn_AddCity = new System.Windows.Forms.Button();
 			this.Btn_EditCity = new System.Windows.Forms.Button();
 			this.Btn_RemoveCity = new System.Windows.Forms.Button();
-			this.CityList2 = new System.Windows.Forms.ListBox();
-			this.CityList3 = new System.Windows.Forms.ListBox();
-			this.Label_Distance_KM = new System.Windows.Forms.Label();
-			this.Label_Distance_MI = new System.Windows.Forms.Label();
+			this.DistanceList = new System.Windows.Forms.TreeView();
+			this.Btn_Units_Miles = new System.Windows.Forms.RadioButton();
+			this.Btn_Units_KM = new System.Windows.Forms.RadioButton();
 			this.SuspendLayout();
 			// 
 			// CityList
 			// 
+			this.CityList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
 			this.CityList.FormattingEnabled = true;
 			this.CityList.ItemHeight = 16;
 			this.CityList.Location = new System.Drawing.Point(12, 12);
 			this.CityList.Name = "CityList";
 			this.CityList.Size = new System.Drawing.Size(117, 276);
 			this.CityList.TabIndex = 0;
+			this.CityList.SelectedIndexChanged += new System.EventHandler(this.CityList_SelectedIndexChanged);
 			// 
 			// Btn_AddCity
 			// 
@@ -72,53 +89,73 @@
 			this.Btn_RemoveCity.UseVisualStyleBackColor = true;
 			this.Btn_RemoveCity.Click += new System.EventHandler(this.Btn_RemoveCity_Click);
 			// 
-			// CityList2
+			// DistanceList
 			// 
-			this.CityList2.FormattingEnabled = true;
-			this.CityList2.ItemHeight = 16;
-			this.CityList2.Location = new System.Drawing.Point(309, 12);
-			this.CityList2.Name = "CityList2";
-			this.CityList2.Size = new System.Drawing.Size(117, 276);
-			this.CityList2.TabIndex = 4;
-			this.CityList2.SelectedIndexChanged += new System.EventHandler(this.CalculateDistance);
+			this.DistanceList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.DistanceList.Location = new System.Drawing.Point(216, 12);
+			this.DistanceList.Name = "DistanceList";
+			treeNode1.Name = "Node3";
+			treeNode1.Text = "Sub1";
+			treeNode2.Name = "Node4";
+			treeNode2.Text = "Sub2";
+			treeNode3.Name = "Node5";
+			treeNode3.Text = "Sub3";
+			treeNode4.Name = "Node0";
+			treeNode4.Text = "Node0";
+			treeNode5.Name = "Node6";
+			treeNode5.Text = "Sub1";
+			treeNode6.Name = "Node7";
+			treeNode6.Text = "Sub2";
+			treeNode7.Name = "Node1";
+			treeNode7.Text = "Node1";
+			treeNode8.Name = "Node8";
+			treeNode8.Text = "Sub1";
+			treeNode9.Name = "Node2";
+			treeNode9.Text = "Node2";
+			this.DistanceList.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode4,
+            treeNode7,
+            treeNode9});
+			this.DistanceList.ShowPlusMinus = false;
+			this.DistanceList.ShowRootLines = false;
+			this.DistanceList.Size = new System.Drawing.Size(168, 276);
+			this.DistanceList.TabIndex = 8;
 			// 
-			// CityList3
+			// Btn_Units_Miles
 			// 
-			this.CityList3.FormattingEnabled = true;
-			this.CityList3.ItemHeight = 16;
-			this.CityList3.Location = new System.Drawing.Point(432, 12);
-			this.CityList3.Name = "CityList3";
-			this.CityList3.Size = new System.Drawing.Size(117, 276);
-			this.CityList3.TabIndex = 5;
-			this.CityList3.SelectedIndexChanged += new System.EventHandler(this.CalculateDistance);
+			this.Btn_Units_Miles.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.Btn_Units_Miles.AutoSize = true;
+			this.Btn_Units_Miles.Checked = true;
+			this.Btn_Units_Miles.Location = new System.Drawing.Point(135, 240);
+			this.Btn_Units_Miles.Name = "Btn_Units_Miles";
+			this.Btn_Units_Miles.Size = new System.Drawing.Size(61, 21);
+			this.Btn_Units_Miles.TabIndex = 9;
+			this.Btn_Units_Miles.TabStop = true;
+			this.Btn_Units_Miles.Text = "Miles";
+			this.Btn_Units_Miles.UseVisualStyleBackColor = true;
+			this.Btn_Units_Miles.CheckedChanged += new System.EventHandler(this.Btn_Units_Miles_CheckedChanged);
 			// 
-			// Label_Distance_KM
+			// Btn_Units_KM
 			// 
-			this.Label_Distance_KM.AutoSize = true;
-			this.Label_Distance_KM.Location = new System.Drawing.Point(555, 18);
-			this.Label_Distance_KM.Name = "Label_Distance_KM";
-			this.Label_Distance_KM.Size = new System.Drawing.Size(76, 17);
-			this.Label_Distance_KM.TabIndex = 6;
-			this.Label_Distance_KM.Text = "0000.0000";
-			// 
-			// Label_Distance_MI
-			// 
-			this.Label_Distance_MI.AutoSize = true;
-			this.Label_Distance_MI.Location = new System.Drawing.Point(555, 41);
-			this.Label_Distance_MI.Name = "Label_Distance_MI";
-			this.Label_Distance_MI.Size = new System.Drawing.Size(76, 17);
-			this.Label_Distance_MI.TabIndex = 7;
-			this.Label_Distance_MI.Text = "0000.0000";
+			this.Btn_Units_KM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.Btn_Units_KM.AutoSize = true;
+			this.Btn_Units_KM.Location = new System.Drawing.Point(135, 267);
+			this.Btn_Units_KM.Name = "Btn_Units_KM";
+			this.Btn_Units_KM.Size = new System.Drawing.Size(49, 21);
+			this.Btn_Units_KM.TabIndex = 10;
+			this.Btn_Units_KM.Text = "KM";
+			this.Btn_Units_KM.UseVisualStyleBackColor = true;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(684, 313);
-			this.Controls.Add(this.Label_Distance_MI);
-			this.Controls.Add(this.Label_Distance_KM);
-			this.Controls.Add(this.CityList3);
-			this.Controls.Add(this.CityList2);
+			this.ClientSize = new System.Drawing.Size(407, 313);
+			this.Controls.Add(this.Btn_Units_KM);
+			this.Controls.Add(this.Btn_Units_Miles);
+			this.Controls.Add(this.DistanceList);
 			this.Controls.Add(this.Btn_RemoveCity);
 			this.Controls.Add(this.Btn_EditCity);
 			this.Controls.Add(this.Btn_AddCity);
@@ -138,10 +175,9 @@
 		private System.Windows.Forms.Button Btn_AddCity;
 		private System.Windows.Forms.Button Btn_EditCity;
 		private System.Windows.Forms.Button Btn_RemoveCity;
-		private System.Windows.Forms.ListBox CityList2;
-		private System.Windows.Forms.ListBox CityList3;
-		private System.Windows.Forms.Label Label_Distance_KM;
-		private System.Windows.Forms.Label Label_Distance_MI;
+		private System.Windows.Forms.TreeView DistanceList;
+		private System.Windows.Forms.RadioButton Btn_Units_Miles;
+		private System.Windows.Forms.RadioButton Btn_Units_KM;
 	}
 }
 
